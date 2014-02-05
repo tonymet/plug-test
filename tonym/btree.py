@@ -7,15 +7,14 @@ Represent btree in python with subtree test.
 Usage: 
 	from tonym import btree
 	io = TreeIO()
-	tree = io.build(file('tree.txt'))
-	subtree = io.build(file('subtree.txt'))
+	(tree,subtree) = io.parse(file('tree.txt'))
 	tree.contains(subtree)
 
 OVERVIEW:
 	
-	Create n-ary tree in python.  tree stored using Node class with children in python list
-	nodes contain a reference to a hashtable (dict) index of the node positions. This allows
-	for O(1)-time lookup of subtree root nodes
+Create n-ary tree in python.  tree stored using Node class with children in python list
+nodes are indexed in a  hashtable (dict) of the node positions. This allows
+for O(1)-time lookup of subtree root nodes
 
 TODO:
 	* doctest on methods

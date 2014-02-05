@@ -13,11 +13,12 @@ Usage:
 
 
 OVERVIEW: 
-		My thoughts here were to treat this as a pathfinding problem The "map"
-	would be stored in a dict of coordinate tuples, i.e. (x,y) -> data. Deleting
-	nodes from a dict is easier to manage than nested lists The nodes could be
-	traversed w,s,e,n (clockwise) which is conceptually easier than an odd nested
-	loop. Nodes will be removed from the map when visited
+		My thoughts here were to treat this as a pathfinding problem. The "map"
+would be stored in a dict of coordinate tuples, i.e. (x,y) -> data. Nodes
+are deleted when visited Deleting nodes from a dict is easier to manage than
+nested lists The nodes could be traversed w,s,e,n (clockwise) which is
+conceptually easier than an odd nested loop. Nodes will be removed from the map
+when visited
 
 """
 import sys
@@ -26,7 +27,7 @@ from pprint import pformat,pprint
 __author__ = 'tonym@tonym.us'
 __version__ = '1.0.0' 
 class App:
-	"""Contains app globals like tree root and main method"""
+	"""Contains app globals"""
 	def run(self, args):
 		# TODO test args / use getopt
 		io = GridIO()
@@ -46,7 +47,7 @@ class GridIO:
 		return Grid()
 
 class Grid:
-	"""Contains node data and refs to children. Also, ref to index """
+	"""Contains map as dict of tuples (x,y) -> data """
 	def __init__(self):
 		# TODO: create real constructor. for now assign refs manually
 		# contstants
@@ -87,6 +88,7 @@ class Grid:
 			return
 
 	def iterNorth(self, origin):
+		""" return iterator north from tuple origin"""
 		if type(origin) is not tuple:
 			raise TypeError
 		try:
@@ -100,6 +102,7 @@ class Grid:
 			return
 
 	def iterEast(self, origin):
+		""" return iterator east from tuple origin"""
 		if type(origin) is not tuple:
 			raise TypeError
 		try:
@@ -113,6 +116,7 @@ class Grid:
 			return
 
 	def iterWest(self, origin):
+		""" return iterator west from tuple origin"""
 		if type(origin) is not tuple:
 			raise TypeError
 		try:

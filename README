@@ -18,9 +18,9 @@ DESCRIPTION
     
     OVERVIEW:
             
-            Create n-ary tree in python.  tree stored using Node class with children in python list
-            nodes contain a reference to a hashtable (dict) index of the node positions. This allows
-            for O(1)-time lookup of subtree root nodes
+    Create n-ary tree in python.  tree stored using Node class with children in python list
+    nodes are indexed in a  hashtable (dict) of the node positions. This allows
+    for O(1)-time lookup of subtree root nodes
     
     TODO:
             * doctest on methods
@@ -114,11 +114,12 @@ DESCRIPTION
     
     
     OVERVIEW: 
-                    My thoughts here were to treat this as a pathfinding problem The "map"
-            would be stored in a dict of coordinate tuples, i.e. (x,y) -> data. Deleting
-            nodes from a dict is easier to manage than nested lists The nodes could be
-            traversed w,s,e,n (clockwise) which is conceptually easier than an odd nested
-            loop. Nodes will be removed from the map when visited
+                    My thoughts here were to treat this as a pathfinding problem. The "map"
+    would be stored in a dict of coordinate tuples, i.e. (x,y) -> data. Nodes
+    are deleted when visited Deleting nodes from a dict is easier to manage than
+    nested lists The nodes could be traversed w,s,e,n (clockwise) which is
+    conceptually easier than an odd nested loop. Nodes will be removed from the map
+    when visited
 
 CLASSES
     App
@@ -126,14 +127,14 @@ CLASSES
     GridIO
     
     class App
-     |  Contains app globals like tree root and main method
+     |  Contains app globals
      |  
      |  Methods defined here:
      |  
      |  run(self, args)
     
     class Grid
-     |  Contains node data and refs to children. Also, ref to index
+     |  Contains map as dict of tuples (x,y) -> data
      |  
      |  Methods defined here:
      |  
@@ -146,12 +147,15 @@ CLASSES
      |      get data at coord (tuple)
      |  
      |  iterEast(self, origin)
+     |      return iterator east from tuple origin
      |  
      |  iterNorth(self, origin)
+     |      return iterator north from tuple origin
      |  
      |  iterSouth(self, origin)
      |  
      |  iterWest(self, origin)
+     |      return iterator west from tuple origin
      |  
      |  set(self, coord, data)
      |      set data on map for x,y
