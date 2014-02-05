@@ -13,8 +13,7 @@ DESCRIPTION
     Usage: 
             from tonym import btree
             io = TreeIO()
-            tree = io.build(file('tree.txt'))
-            subtree = io.build(file('subtree.txt'))
+            (tree,subtree) = io.parse(file('tree.txt'))
             tree.contains(subtree)
     
     OVERVIEW:
