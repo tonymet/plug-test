@@ -43,7 +43,7 @@ class App:
 
 class TreeIO:
 	"""Parses csv representation of tree & subtree into two trees
-		returns tuple (tree, subtree)"""
+		returns tuple (tree(Tree), subtree(Tree))"""
 	def parse(self, f):
 		"""read file f and build into tree"""
 		# TODO error check on file/bounds/etc
@@ -53,17 +53,30 @@ class TreeIO:
 
 	def build(self, tree_list):
 		""" build tree from ordered list representation"""
-		index = Index()
-		root = Node(tree_list.pop(0), index)
+		tree = Tree()
+		tree.append(tree_list.pop(0))
 		for i in range(len(tree_list)):
 			e = tree_list.pop(0)
-			root.append(e)
-		return root
+			tree.append(e)
+		return tree
 
 class Tree:
 	def __init__(self):
 		self.index = Index()
-		self.root = Node(None, index)
+		self.root = None
+	
+	def append(self, data):
+		if self.root is None:
+			self.root = Node(data, self.index)
+			return
+		else:
+			self.root.append(data)
+
+	def contains(self, other):
+		return self.root.contains(other.root)
+
+	def iterNodes(self):
+		yield self.root.iterNodes()
 
 class Index:
 	"""hashtable index of node data -> node in tree"""

@@ -35,11 +35,11 @@ class BtreeTest(unittest.TestCase):
 
 	def testTop(self):
 		tree_a, tree_b = self.io.parse(self.create_file_object(self.RELATED_TREES))
-		self.assertEquals(tree_a.data, '1')
-		self.assertEquals(tree_a.l.data, '5')
-		self.assertEquals(tree_a.r.data, '4')
-		self.assertEquals(tree_a.l.l.data, '')
-		self.assertEquals(tree_a.l.r.data, '3')
+		self.assertEquals(tree_a.root.data, '1')
+		self.assertEquals(tree_a.root.l.data, '5')
+		self.assertEquals(tree_a.root.r.data, '4')
+		self.assertEquals(tree_a.root.l.l.data, '')
+		self.assertEquals(tree_a.root.l.r.data, '3')
 
 
 	def testComplete(self):
