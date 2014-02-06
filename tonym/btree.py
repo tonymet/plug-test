@@ -28,6 +28,11 @@ import math
 __author__ = 'tonym@tonym.us'
 __version__ = '1.0.0' 
 
+DEBUG = False
+
+def debug(s):
+	if DEBUG:
+		print >> sys.stderr, pformat(s)
 
 class App:
 	"""Contains app globals like tree root and main method"""
@@ -50,13 +55,15 @@ class TreeIO:
 		""" build tree from ordered list representation"""
 		index = Index()
 		root = Node(tree_list.pop(0), index)
-		cur = root
-		while 1:
-			try:
-				cur = cur.append(tree_list.pop(0))
-			except IndexError:
-				break
+		for i in range(len(tree_list)):
+			e = tree_list.pop(0)
+			root.append(e)
 		return root
+
+class Tree:
+	def __init__(self):
+		self.index = Index()
+		self.root = Node(None, index)
 
 class Index:
 	"""hashtable index of node data -> node in tree"""
@@ -101,41 +108,46 @@ class Node:
 		self.data   = data
 		self.index[data] = self
 
+	def complete(self):
+		return (self.l is not None and self.r is not None)
+
 	def append(self, data):
 		"""add child left, right. raise error if full"""
-		if self.l is None:
+		if self.data is None:
+			self.data = data
+		elif self.l is None:
 			self.l = Node(data, self.index)
-			return self
 		elif self.r is None:
 			self.r = Node(data, self.index)
-			return self.l
+		elif self.l.complete():
+			self.r.append(data)
+		else:
+			self.l.append(data)
 
-	def iterNodes(self):
-		yield self.data
+	def iterNodes(self, root = True):
+		if(root):
+			yield self.data
 		if self.l is not None:
-			for e in self.l.iterNodes():
+			yield self.l.data
+		if self.r is not None:
+			yield self.r.data
+		if self.l is not None:
+			for e in self.l.iterNodes(False):
 				yield e
 		if self.r is not None:
-			for e in self.r.iterNodes():
+			for e in self.r.iterNodes(False):
 				yield e
 	
 	def __str__(self):
-		l = [i for i in self.iterNodes()]
+		l = [i for i in self.iterNodes(False)]
 		return ' '.join(l)
 
-	def printNodes(self,p):
-		if(p):
-			print self.data
+	def printNodes(self):
+		print self.data
 		if self.l is not None:
-			print self.l.data,
+			self.l.printNodes()
 		if self.r is not None:
-			print self.r.data
-
-		if self.l is not None:
-			self.l.printNodes(False)
-		if self.r is not None:
-			self.r.printNodes(False)
-
+			self.r.printNodes()
 		
 	def contains(self, qnode):
 		"""look up root node in index. Then recursive compare to children
@@ -149,16 +161,16 @@ class Node:
 			print >> sys.stderr, "Error, root node not found"
 			return False
 
-		print "found:",
-		print tnode.data
+		debug("found:",)
+		debug( tnode.data)
 
 		# traverse query and target "subtrees" into lists for easy compare
 		# this does cost one extra traversal of the subtree but it's more pythonic
 		qnode_list = [n for n in qnode.iterNodes()]
 		tnode_list = [n for n in tnode.iterNodes()]
-		pprint(qnode_list)
-		pprint(tnode_list)
-		pprint(tnode.index.d)
+		tnode_list = tnode_list[0:len(qnode_list)]
+		debug(qnode_list)
+		debug(tnode_list)
 		if cmp(qnode_list, tnode_list) == 0:
 			return True
 		return False
