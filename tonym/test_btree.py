@@ -4,15 +4,6 @@ import btree
 from pprint import pprint
 import unittest
 
-
-RELATED_TREES = """1,5,4,,3,2,5,,,,,,,0,8
-4,2,5
-"""
-
-UNRELATED_TREES = """1,5,4,,3,2,9,,,,,,,0,8
-4,2,5
-"""
-
 class BtreeTest(unittest.TestCase):
 
 	def setUp(self):
