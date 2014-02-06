@@ -42,6 +42,13 @@ class BtreeTest(unittest.TestCase):
 		self.assertEquals(tree_a.root.l.r.data, '3')
 
 
+	def testIter(self):
+		t = btree.Tree()
+		t.append(5)
+		t.append(6)
+		l = [i for i in t]
+		self.assertEqual([5,6],l)
+
 	def testComplete(self):
 		i = btree.Index()
 		n = btree.Node(5, i)

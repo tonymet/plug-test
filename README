@@ -18,19 +18,21 @@ DESCRIPTION
     
     OVERVIEW:
             
-    Create n-ary tree in python.  tree stored using Node class with children in python list
+    Create binary tree in python.  tree stored using Node class with children in python list
     nodes are indexed in a  hashtable (dict) of the node positions. This allows
     for O(1)-time lookup of subtree root nodes
     
+    BUGS:
+            * duplicate nodes clobber index and break lookup
+    
     TODO:
-            * doctest on methods
-            * consider lib for tree representation
-            *
+            * make Node & Index private
 
 CLASSES
     App
     Index
     Node
+    Tree
     TreeIO
     
     class App
@@ -48,6 +50,8 @@ CLASSES
      |  __init__(self)
      |      create new index with index in dict
      |  
+     |  __setitem__(self, k, v)
+     |  
      |  add(self, data, node)
      |      add data->node ref
      |  
@@ -62,18 +66,44 @@ CLASSES
      |  
      |  __init__(self, data, index)
      |  
-     |  append(self, node)
+     |  __str__(self)
+     |  
+     |  append(self, data)
      |      add child left, right. raise error if full
+     |  
+     |  complete(self)
+     |      return if the current node has both children
      |  
      |  contains(self, qnode)
      |      look up root node in index. Then recursive compare to children
      |      qnode is the root node of the query subtree
      |  
-     |  iterNodes(self, root)
+     |  iterNodes(self, root=True)
+     |      iterate over nodes breadth-first
+     |  
+     |  printNodes(self)
+    
+    class Tree
+     |  Binary tree with dictionary index of node entries
+     |  usage
+     |          t = Tree()
+     |          t.append()
+     |          for e in t:
+     |                  print e
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self)
+     |  
+     |  __iter__(self)
+     |  
+     |  append(self, data)
+     |  
+     |  contains(self, other)
     
     class TreeIO
      |  Parses csv representation of tree & subtree into two trees
-     |  returns tuple (tree, subtree)
+     |  returns tuple (tree(Tree), subtree(Tree))
      |  
      |  Methods defined here:
      |  
@@ -83,7 +113,12 @@ CLASSES
      |  parse(self, f)
      |      read file f and build into tree
 
+FUNCTIONS
+    debug(s)
+        debug logging
+
 DATA
+    DEBUG = False
     __author__ = 'tonym@tonym.us'
     __version__ = '1.0.0'
 

@@ -12,14 +12,15 @@ Usage:
 
 OVERVIEW:
 	
-Create n-ary tree in python.  tree stored using Node class with children in python list
+Create binary tree in python.  tree stored using Node class with children in python list
 nodes are indexed in a  hashtable (dict) of the node positions. This allows
 for O(1)-time lookup of subtree root nodes
 
+BUGS:
+	* duplicate nodes clobber index and break lookup
+
 TODO:
-	* doctest on methods
-	* consider lib for tree representation
-	* 
+	* make Node & Index private
 """ 
 import sys
 import logging
@@ -28,9 +29,11 @@ import math
 __author__ = 'tonym@tonym.us'
 __version__ = '1.0.0' 
 
+#enable global debug mode
 DEBUG = False
 
 def debug(s):
+	"""debug logging"""
 	if DEBUG:
 		print >> sys.stderr, pformat(s)
 
@@ -61,6 +64,15 @@ class TreeIO:
 		return tree
 
 class Tree:
+	"""
+		Binary tree with dictionary index of node entries
+		usage
+			t = Tree()
+			t.append()
+			for e in t:
+				print e
+
+	"""
 	def __init__(self):
 		self.index = Index()
 		self.root = None
@@ -75,8 +87,9 @@ class Tree:
 	def contains(self, other):
 		return self.root.contains(other.root)
 
-	def iterNodes(self):
-		yield self.root.iterNodes()
+	def __iter__(self):
+		for i in self.root.iterNodes():
+			yield i
 
 class Index:
 	"""hashtable index of node data -> node in tree"""
@@ -122,6 +135,7 @@ class Node:
 		self.index[data] = self
 
 	def complete(self):
+		"""return if the current node has both children"""
 		return (self.l is not None and self.r is not None)
 
 	def append(self, data):
@@ -138,6 +152,7 @@ class Node:
 			self.l.append(data)
 
 	def iterNodes(self, root = True):
+		"""iterate over nodes breadth-first"""
 		if(root):
 			yield self.data
 		if self.l is not None:
@@ -174,13 +189,11 @@ class Node:
 			print >> sys.stderr, "Error, root node not found"
 			return False
 
-		debug("found:",)
-		debug( tnode.data)
-
 		# traverse query and target "subtrees" into lists for easy compare
 		# this does cost one extra traversal of the subtree but it's more pythonic
 		qnode_list = [n for n in qnode.iterNodes()]
 		tnode_list = [n for n in tnode.iterNodes()]
+		# truncate tnode list to size of qnode_list for comparison
 		tnode_list = tnode_list[0:len(qnode_list)]
 		debug(qnode_list)
 		debug(tnode_list)
