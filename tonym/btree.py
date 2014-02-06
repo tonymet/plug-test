@@ -24,6 +24,7 @@ TODO:
 import sys
 import logging
 from pprint import pprint,pformat
+import math
 __author__ = 'tonym@tonym.us'
 __version__ = '1.0.0' 
 
@@ -33,12 +34,7 @@ class App:
 
 	def run(self, args):
 		# TODO test args / use getopt
-		io = TreeIO()
-		(tree, subtree) = io.parse(file(args[1]))
-		if(tree.contains(subtree) == tree.COMPARE_EQUAL):
-			print "Yes"
-		else:
-			print "No"
+		pass
 
 class TreeIO:
 	"""Parses csv representation of tree & subtree into two trees
@@ -53,8 +49,7 @@ class TreeIO:
 	def build(self, tree_list):
 		""" build tree from ordered list representation"""
 		index = Index()
-		root = Node(None, index)
-		root.append(tree_list.pop(0))
+		root = Node(tree_list.pop(0), index)
 		cur = root
 		while 1:
 			try:
@@ -62,8 +57,6 @@ class TreeIO:
 			except IndexError:
 				break
 		return root
-
-
 
 class Index:
 	"""hashtable index of node data -> node in tree"""
@@ -101,33 +94,21 @@ class Node:
 		# consts for left/right and max index
 		# TODO: make these static members (I forget)
 		
-
 		# index ref shared among nodes
 		self.index = index
 		self.r = None
 		self.l = None
 		self.data   = data
+		self.index[data] = self
 
 	def append(self, data):
 		"""add child left, right. raise error if full"""
-		if self.data is None:
-			self.data = data
-			self.index[data] = self
+		if self.l is None:
+			self.l = Node(data, self.index)
 			return self
-		elif self.l is None:
-			self.l = Node(None, self.index)
-			self.l.append(data)
-			return self.l
 		elif self.r is None:
-			self.r = Node(None, self.index)
-			self.r.append(data)
-			return self.r
-
-	def __str__(self):
-		l = []
-		for i in self.iterNodes():
-			l.append(i)
-		return ' '.join(l)
+			self.r = Node(data, self.index)
+			return self.l
 
 	def iterNodes(self):
 		yield self.data
@@ -135,15 +116,26 @@ class Node:
 			for e in self.l.iterNodes():
 				yield e
 		if self.r is not None:
-			for e in self.l.iterNodes():
+			for e in self.r.iterNodes():
 				yield e
+	
+	def __str__(self):
+		l = [i for i in self.iterNodes()]
+		return ' '.join(l)
 
-	def fiterNodes(self,f):
-		f( self.data)
+	def printNodes(self,p):
+		if(p):
+			print self.data
 		if self.l is not None:
-			self.l.fiterNodes(f)
+			print self.l.data,
 		if self.r is not None:
-			self.r.fiterNodes(f)
+			print self.r.data
+
+		if self.l is not None:
+			self.l.printNodes(False)
+		if self.r is not None:
+			self.r.printNodes(False)
+
 		
 	def contains(self, qnode):
 		"""look up root node in index. Then recursive compare to children
@@ -154,15 +146,22 @@ class Node:
 		# tnode is the target node in the main tree
 		tnode = self.index.get(qnode.data)
 		if tnode is None:
-			return self.COMPARE_NOT_EQUAL
+			print >> sys.stderr, "Error, root node not found"
+			return False
+
+		print "found:",
+		print tnode.data
 
 		# traverse query and target "subtrees" into lists for easy compare
 		# this does cost one extra traversal of the subtree but it's more pythonic
 		qnode_list = [n for n in qnode.iterNodes()]
 		tnode_list = [n for n in tnode.iterNodes()]
-		if qnode_list == tnode_list:
-			return self.COMPARE_EQUAL
-		return self.COMPARE_NOT_EQUAL
+		pprint(qnode_list)
+		pprint(tnode_list)
+		pprint(tnode.index.d)
+		if cmp(qnode_list, tnode_list) == 0:
+			return True
+		return False
 		
 if __name__=='__main__':
 	app = App()
