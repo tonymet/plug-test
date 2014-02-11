@@ -9,17 +9,6 @@ TODO:
   * make plug.js anonymous to prevent globals
   * load jquery asynchronously or at bottom
 
-TIMING:
-
-window.performance = window.performance || {};
-		performance.now = (function() {
-			return performance.now       ||
-			performance.mozNow    ||
-			performance.msNow     ||
-			performance.oNow      ||
-			performance.webkitNow ||            
-			Date.now  /*none found - fallback to browser default */
-	})();
 
 	SPECS
 		Here is the front-end code test. The deadline is 1:15pm PT today.
@@ -40,3 +29,14 @@ window.performance = window.performance || {};
 	* You can use jQuery to code the UI, but you cannot use jQuery UI (or any other library) for the slider itself. The slider needs to be built by you from scratch using HTML, CSS and JavaScript.  
 
 
+TIMING:
+
+window.performance = window.performance || {};
+		performance.now = (function() {
+			return performance.now       ||
+			performance.mozNow    ||
+			performance.msNow     ||
+			performance.oNow      ||
+			performance.webkitNow ||            
+			Date.now  /*none found - fallback to browser default */
+	})();
