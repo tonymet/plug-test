@@ -1,3 +1,9 @@
+OVERVIEW:
+  * js is in js/plug.js.  see jsdoc in there for a desc of classes
+  * ui in html/index.html
+
+USAGE:
+  * open html/index.html in your browser
 
 TODO:
   * make plug.js anonymous to prevent globals
