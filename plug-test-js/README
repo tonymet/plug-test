@@ -1,0 +1,42 @@
+
+THOUGHTS
+- anonymous wrapper for lib
+- class DateGenerator toReadable(int)
+- controller class for hooking up text
+
+
+TODO:
+  * make plug.js anonymous to prevent globals
+  * load jquery asynchronously or at bottom
+
+TIMING:
+
+window.performance = window.performance || {};
+		performance.now = (function() {
+			return performance.now       ||
+			performance.mozNow    ||
+			performance.msNow     ||
+			performance.oNow      ||
+			performance.webkitNow ||            
+			Date.now  /*none found - fallback to browser default */
+	})();
+
+	SPECS
+		Here is the front-end code test. The deadline is 1:15pm PT today.
+
+	Write JavaScript that outputs 1 to 1,000,000 in plain English.
+
+	e.g.
+		Twelve
+		Thirty-two thousand three hundred and eighty-nine
+		Four hundred and sixty-four thousand nine hundred and eighteen.
+
+	(1) First, you will need to create a for loop test that measures the total time it takes for your code to count from 1 to 1,000,000 without visually displaying the output.
+
+	(2) Next, You will need to create a self-incrementing counter that counts from 1 to 1,000,000 and loops back to 1 again, outputting to a text field in the browser (not console).
+
+	(3) Finally, you will need to create a horizontal slider that updates with the current counter position that you can also click-and-drag to move the counter. The counter should pause while you are pressed.
+
+	* You can use jQuery to code the UI, but you cannot use jQuery UI (or any other library) for the slider itself. The slider needs to be built by you from scratch using HTML, CSS and JavaScript.  
+
+
