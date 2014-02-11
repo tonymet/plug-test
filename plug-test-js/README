@@ -1,16 +1,12 @@
 
-THOUGHTS
-- anonymous wrapper for lib
-- class DateGenerator toReadable(int)
-- controller class for hooking up text
-
-
 TODO:
   * make plug.js anonymous to prevent globals
   * load jquery asynchronously or at bottom
+  * cleanup deps on UI elements in JS
+  * fix parse()
+  
 
-
-	SPECS
+SPECS
 		Here is the front-end code test. The deadline is 1:15pm PT today.
 
 	Write JavaScript that outputs 1 to 1,000,000 in plain English.
