@@ -25,14 +25,3 @@ SPECS
 	* You can use jQuery to code the UI, but you cannot use jQuery UI (or any other library) for the slider itself. The slider needs to be built by you from scratch using HTML, CSS and JavaScript.  
 
 
-TIMING:
-
-window.performance = window.performance || {};
-		performance.now = (function() {
-			return performance.now       ||
-			performance.mozNow    ||
-			performance.msNow     ||
-			performance.oNow      ||
-			performance.webkitNow ||            
-			Date.now  /*none found - fallback to browser default */
-	})();
